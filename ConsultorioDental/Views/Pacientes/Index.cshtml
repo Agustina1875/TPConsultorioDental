@@ -1,0 +1,33 @@
+﻿@model IEnumerable<ConsultorioDental.Models.Paciente>
+
+<h4>Pacientes</h4>
+<a asp-action="Crear" class="btn btn-primary btn-sm mb-3">+ Nuevo Paciente</a>
+
+<table class="table table-sm table-bordered small">
+    <thead class="table-dark">
+        <tr>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>DNI</th>
+            <th>Teléfono</th>
+            <th>Email</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var p in Model)
+        {
+            <tr>
+                <td>@p.Nombre</td>
+                <td>@p.Apellido</td>
+                <td>@p.DNI</td>
+                <td>@p.Telefono</td>
+                <td>@p.Email</td>
+                <td>
+                    <a asp-action="Editar" asp-route-id="@p.Id" class="btn btn-sm btn-warning">Editar</a>
+                    <a asp-action="Eliminar" asp-route-id="@p.Id" class="btn btn-sm btn-danger">Eliminar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

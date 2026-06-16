@@ -1,0 +1,11 @@
+﻿@model ConsultorioDental.Models.Paciente
+
+<h2>Eliminar Paciente</h2>
+
+<p>¿Estas seguro que querés eliminar a <strong>@Model.NombreCompleto</strong>?</p>
+
+<form asp-action="Eliminar">
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" class="btn btn-danger">Sí, eliminar</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+</form>
