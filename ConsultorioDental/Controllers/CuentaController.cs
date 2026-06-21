@@ -74,7 +74,7 @@ namespace ConsultorioDental.Controllers
 
             return RedirectToAction("Index", "Home");
         }
-
+        // CAMBIO DE PRUEBA PARA GIT - LUCIA
         //cierra la sesion
         public async Task<IActionResult> Logout()
         {
