@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ConsultorioDental.Models
 {
-    public class Paciente
+    public class Odontologo
     {
         public int Id { get; set; }
 
@@ -20,13 +20,13 @@ namespace ConsultorioDental.Models
         [NotMapped]
         public string NombreCompleto => $"{Nombre} {Apellido}".Trim();
 
-        [Required(ErrorMessage = "El DNI es obligatorio.")]
-        [RegularExpression(@"^\d{7,8}$", ErrorMessage = "El DNI debe tener 7 u 8 dígitos numéricos.")]
-        [Display(Name = "DNI")]
-        public string DNI { get; set; } = string.Empty;
+        [Required(ErrorMessage = "La especialidad es obligatoria.")]
+        [StringLength(80, ErrorMessage = "La especialidad no puede superar los 80 caracteres.")]
+        [Display(Name = "Especialidad")]
+        public string Especialidad { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "El teléfono es obligatorio.")]
-        [RegularExpression(@"^[0-9+\-\s()]{6,20}$", ErrorMessage = "Ingresá un teléfono válido (mínimo 6 caracteres).")]
+        [RegularExpression(@"^[0-9+\-\s()]{6,20}$", ErrorMessage = "Ingresá un número de teléfono válido.")]
         [Display(Name = "Teléfono")]
         public string Telefono { get; set; } = string.Empty;
 
@@ -34,11 +34,6 @@ namespace ConsultorioDental.Models
         [EmailAddress(ErrorMessage = "Ingresá una dirección de email válida.")]
         [Display(Name = "Email")]
         public string Email { get; set; } = string.Empty;
-
-        [Required(ErrorMessage = "La fecha de nacimiento es obligatoria.")]
-        [DataType(DataType.Date)]
-        [Display(Name = "Fecha de nacimiento")]
-        public DateTime FechaNacimiento { get; set; } = new DateTime(2000, 1, 1);
 
         public ICollection<Turno> Turnos { get; set; } = new List<Turno>();
     }

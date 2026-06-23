@@ -1,0 +1,93 @@
+@model ConsultorioDental.Models.RegisterViewModel
+@{
+    ViewData["Title"] = "Registro";
+    Layout = "_Layout";
+}
+
+<div class="row justify-content-center py-4">
+    <div class="col-lg-7">
+        <div class="card border-0 shadow-sm overflow-hidden">
+            <div class="p-4 text-white" style="background:linear-gradient(135deg,#44B4C4 0%,#2da8bb 100%);">
+                <h2 class="fw-bold mb-1">Crear cuenta</h2>
+                <p class="mb-0 opacity-75">Completá tus datos para registrarte como paciente.</p>
+            </div>
+
+            <div class="card-body p-4">
+                <form asp-action="Registro" method="post">
+                    @Html.AntiForgeryToken()
+                    <div asp-validation-summary="ModelOnly" class="text-danger small mb-3"></div>
+
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label asp-for="Nombre" class="form-label fw-semibold"></label>
+                            <input asp-for="Nombre" class="form-control" />
+                            <span asp-validation-for="Nombre" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="Apellido" class="form-label fw-semibold"></label>
+                            <input asp-for="Apellido" class="form-control" />
+                            <span asp-validation-for="Apellido" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="DNI" class="form-label fw-semibold"></label>
+                            <input asp-for="DNI" class="form-control" />
+                            <span asp-validation-for="DNI" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="FechaNacimiento" class="form-label fw-semibold"></label>
+                            <input asp-for="FechaNacimiento" type="date" class="form-control" />
+                            <span asp-validation-for="FechaNacimiento" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="Telefono" class="form-label fw-semibold"></label>
+                            <input asp-for="Telefono" class="form-control" />
+                            <span asp-validation-for="Telefono" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="Email" class="form-label fw-semibold"></label>
+                            <input asp-for="Email" class="form-control" autocomplete="username" />
+                            <span asp-validation-for="Email" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="Password" class="form-label fw-semibold"></label>
+                            <div class="input-group">
+                                <input asp-for="Password" class="form-control" id="RegisterPassword" type="password" autocomplete="new-password" />
+                                <button type="button"
+                                        class="btn password-toggle-btn"
+                                        data-password-toggle
+                                        data-password-target="RegisterPassword"
+                                        aria-label="Mostrar contraseña">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                            </div>
+                            <span asp-validation-for="Password" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="ConfirmPassword" class="form-label fw-semibold"></label>
+                            <div class="input-group">
+                                <input asp-for="ConfirmPassword" class="form-control" id="RegisterConfirmPassword" type="password" autocomplete="new-password" />
+                                <button type="button"
+                                        class="btn password-toggle-btn"
+                                        data-password-toggle
+                                        data-password-target="RegisterConfirmPassword"
+                                        aria-label="Mostrar contraseña">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                            </div>
+                            <span asp-validation-for="ConfirmPassword" class="text-danger small"></span>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 d-flex gap-2">
+                        <button type="submit" class="btn btn-dental px-4 fw-semibold">Crear cuenta</button>
+                        <a asp-action="Login" class="btn btn-outline-secondary px-4">Ya tengo cuenta</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

@@ -1,0 +1,86 @@
+﻿@model ConsultorioDental.Models.TurnoFormViewModel
+@{
+    ViewData["Title"] = "Editar turno";
+}
+
+<div class="page-header">
+    <h1><i class="bi bi-pencil me-2"></i>Editar turno</h1>
+    <p>Modificá la fecha, la hora y los datos del turno seleccionado.</p>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-lg-7">
+        <div class="card card-form">
+            <div class="card-body p-4 p-md-5">
+
+                <form asp-action="Editar" method="post">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" asp-for="Id" />
+
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger small mb-3"></div>
+
+                    <p class="form-section-title">Datos del turno</p>
+
+                    <div class="row g-3 mb-4">
+                        <div class="col-12">
+                            <label asp-for="PacienteId" class="form-label fw-semibold">Paciente</label>
+                            <select asp-for="PacienteId" asp-items="ViewBag.Pacientes" class="form-select" required>
+                                <option value="">— Seleccioná un paciente —</option>
+                            </select>
+                            <span asp-validation-for="PacienteId" class="text-danger small"></span>
+                        </div>
+                        <div class="col-12">
+                            <label asp-for="OdontologoId" class="form-label fw-semibold">Odontólogo</label>
+                            <select asp-for="OdontologoId" asp-items="ViewBag.Odontologos" class="form-select" required>
+                                <option value="">— Seleccioná un odontólogo —</option>
+                            </select>
+                            <span asp-validation-for="OdontologoId" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="Fecha" class="form-label fw-semibold"></label>
+                            <input asp-for="Fecha" type="date" class="form-control" required />
+                            <span asp-validation-for="Fecha" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="Hora" class="form-label fw-semibold"></label>
+                            <select asp-for="Hora" asp-items="ViewBag.Horas" class="form-select" required>
+                                <option value="">— Seleccioná una hora —</option>
+                            </select>
+                            <span asp-validation-for="Hora" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="Estado" class="form-label fw-semibold"></label>
+                            <select asp-for="Estado" class="form-select">
+                                <option value="Pendiente">Pendiente</option>
+                                <option value="Confirmado">Confirmado</option>
+                                <option value="Cancelado">Cancelado</option>
+                                <option value="Completado">Completado</option>
+                                <option value="Inasistencia">Inasistencia</option>
+                            </select>
+                            <span asp-validation-for="Estado" class="text-danger small"></span>
+                        </div>
+                        <div class="col-12">
+                            <label asp-for="Motivo" class="form-label fw-semibold"></label>
+                            <input asp-for="Motivo" class="form-control" />
+                            <span asp-validation-for="Motivo" class="text-danger small"></span>
+                        </div>
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-dental px-4">
+                            <i class="bi bi-check-lg me-1"></i>Guardar cambios
+                        </button>
+                        <a asp-action="Index" class="btn btn-outline-secondary px-4">Cancelar</a>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

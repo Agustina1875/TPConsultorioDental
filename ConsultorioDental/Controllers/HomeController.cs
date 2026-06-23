@@ -1,32 +1,35 @@
-using ConsultorioDental.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
+using ConsultorioDental.Models;
 
 namespace ConsultorioDental.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
-        {
-            _logger = logger;
-        }
-
+        //muestra la pagina principal
         public IActionResult Index()
         {
             return View();
         }
 
-        public IActionResult Privacy()
+       
+        //redirige al panel correspondiente segun el rol
+        [Authorize]
+        public IActionResult Dashboard()
         {
-            return View();
+            if (User.IsInRole("Administrador"))
+                return RedirectToAction("Index", "Admin");
+
+            if (User.IsInRole("Odontologo"))
+                return RedirectToAction("MisTurnos", "Turnos");
+
+            if (User.IsInRole("Paciente"))
+                return RedirectToAction("Panel", "Paciente");
+
+            return RedirectToAction("Index", "Home");
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
+       
+      
     }
 }

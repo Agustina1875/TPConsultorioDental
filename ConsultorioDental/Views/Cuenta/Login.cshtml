@@ -1,0 +1,76 @@
+@model ConsultorioDental.Models.LoginViewModel
+@{
+    ViewData["Title"] = "Iniciar sesión";
+    Layout = "_Layout";
+}
+
+<div class="row justify-content-center py-4">
+    <div class="col-lg-5">
+        <div class="card border-0 shadow-sm overflow-hidden">
+            <div class="p-4 text-white" style="background:linear-gradient(135deg,#44B4C4 0%,#2da8bb 100%);">
+                <h2 class="fw-bold mb-1">Dental System</h2>
+                <p class="mb-0 opacity-75">Ingresá a tu cuenta para continuar.</p>
+            </div>
+
+            <div class="card-body p-4">
+                <form asp-action="Login" method="post" class="mb-4">
+                    @Html.AntiForgeryToken()
+                    <div asp-validation-summary="ModelOnly" class="text-danger small mb-3"></div>
+
+                    <div class="mb-3">
+                        <label asp-for="Email" class="form-label fw-semibold"></label>
+                        <input asp-for="Email" class="form-control" placeholder="correo@ejemplo.com" autocomplete="username" />
+                        <span asp-validation-for="Email" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Password" class="form-label fw-semibold"></label>
+                        <div class="input-group">
+                            <input asp-for="Password" class="form-control" id="LoginPassword" type="password" autocomplete="current-password" />
+                            <button type="button"
+                                    class="btn password-toggle-btn"
+                                    data-password-toggle
+                                    data-password-target="LoginPassword"
+                                    aria-label="Mostrar contraseña">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                        </div>
+                        <span asp-validation-for="Password" class="text-danger small"></span>
+                    </div>
+
+                    <div class="form-check mb-3">
+                        <input asp-for="Recordarme" class="form-check-input" />
+                        <label asp-for="Recordarme" class="form-check-label"></label>
+                    </div>
+
+                    <button type="submit" class="btn btn-dental w-100 fw-semibold">Iniciar sesión</button>
+                </form>
+
+                <div class="d-flex align-items-center gap-3 text-muted small my-3">
+                    <div class="flex-grow-1 border-top"></div>
+                    <span>o</span>
+                    <div class="flex-grow-1 border-top"></div>
+                </div>
+
+                <a asp-action="LoginWithGoogle" class="btn btn-outline-secondary w-100 fw-semibold">
+                    Continuar con Google
+                </a>
+
+                <div class="text-center mt-4">
+                    <span class="text-muted">¿No tenés cuenta?</span>
+                    <a asp-action="Registro" class="fw-semibold text-decoration-none">Registrarme</a>
+                </div>
+
+                <div class="text-center mt-3">
+                    <a asp-controller="Home" asp-action="Index" class="text-muted small text-decoration-none">
+                        <i class="bi bi-arrow-left me-1"></i>Volver al inicio
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

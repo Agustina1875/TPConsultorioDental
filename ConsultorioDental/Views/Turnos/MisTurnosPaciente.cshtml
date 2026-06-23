@@ -1,0 +1,127 @@
+@model IEnumerable<ConsultorioDental.Models.Turno>
+@{
+    ViewData["Title"] = "Mis turnos";
+}
+
+@*//vista de todos los turnos del paciente, accesible desde el panel personal*@
+<div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-4">
+    <div>
+        <h1 class="fw-bold mb-1" style="color:#44B4C4;">
+            @if (ViewBag.PacienteNombre != null)
+            {
+                <text>Bienvenido/a, @ViewBag.PacienteNombre</text>
+            }
+            else
+            {
+                <text>Mis turnos</text>
+            }
+        </h1>
+        <p class="text-muted mb-0">Turnos reservados para tu atención.</p>
+    </div>
+    <div class="d-flex gap-2">
+        <a asp-controller="Paciente" asp-action="EditarPerfil" class="btn btn-outline-secondary btn-sm">
+            <i class="bi bi-pencil me-1"></i>Editar perfil
+        </a>
+        <a asp-controller="Paciente" asp-action="Panel" class="btn btn-outline-secondary btn-sm">
+            <i class="bi bi-arrow-left me-1"></i>Volver al panel
+        </a>
+    </div>
+</div>
+
+@if (TempData["Mensaje"] != null)
+{
+    <div class="alert alert-success border-0 rounded-3 mb-3">@TempData["Mensaje"]</div>
+}
+
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-warning border-0 rounded-3">@ViewBag.Error</div>
+}
+else if (!Model.Any())
+{
+    <div class="card border-0 shadow-sm p-5 text-center">
+        <div style="font-size:3rem;">📅</div>
+        <h5 class="fw-bold mt-3 mb-2">No tenes turnos reservados</h5>
+        <p class="text-muted mb-0">Cuando el administrador te asigne uno, va a aparecer aca.</p>
+    </div>
+}
+else
+{
+    <div class="card border-0 shadow-sm">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead style="background-color:#44B4C4; color:white;">
+                        <tr>
+                            <th class="px-4 py-3">Fecha y hora</th>
+                            <th class="py-3">Odontologo</th>
+                            <th class="py-3">Motivo</th>
+                            <th class="py-3 text-center">Estado</th>
+                            <th class="py-3 text-center">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var t in Model)
+                        {
+                            var badge = t.Estado switch
+                            {
+                                "Confirmado" => "bg-success",
+                                "Cancelado" => "bg-danger",
+                                "Completado" => "bg-primary",
+                                "Inasistencia" => "bg-danger",
+                                _ => "bg-warning text-dark"
+                            };
+
+                            <tr>
+                                <td class="px-4 fw-semibold">@t.FechaHora.ToString("dd/MM/yyyy HH:mm")</td>
+                                <td>@(t.Odontologo?.NombreCompleto ?? "—")</td>
+                                <td class="text-muted small">@(t.Motivo ?? "—")</td>
+                                <td class="text-center">
+                                    <span class="badge @badge">@t.Estado</span>
+                                </td>
+                                <td class="text-center">
+                                    @if (t.Estado == "Pendiente")
+                                    {
+                                        <div class="d-flex gap-1 justify-content-center">
+                                            <form asp-action="Confirmar" method="post" class="d-inline">
+                                                @Html.AntiForgeryToken()
+                                                <input type="hidden" name="id" value="@t.Id" />
+                                                <button type="submit" class="btn btn-sm btn-confirmar"
+                                                        onclick="return confirm('¿Confirmas tu asistencia a este turno?')">
+                                                    Confirmar
+                                                </button>
+                                            </form>
+                                            <form asp-action="Cancelar" method="post" class="d-inline">
+                                                @Html.AntiForgeryToken()
+                                                <input type="hidden" name="id" value="@t.Id" />
+                                                <button type="submit" class="btn btn-sm btn-outline-delete"
+                                                        onclick="return confirm('¿Seguro que queres cancelar este turno?')">
+                                                    Cancelar
+                                                </button>
+                                            </form>
+                                        </div>
+                                    }
+                                    else if (t.Estado == "Confirmado")
+                                    {
+                                        <form asp-action="Cancelar" method="post" class="d-inline">
+                                            @Html.AntiForgeryToken()
+                                            <input type="hidden" name="id" value="@t.Id" />
+                                            <button type="submit" class="btn btn-sm btn-outline-delete"
+                                                    onclick="return confirm('¿Seguro que queres cancelar este turno ya confirmado?')">
+                                                Cancelar
+                                            </button>
+                                        </form>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted small">—</span>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+}

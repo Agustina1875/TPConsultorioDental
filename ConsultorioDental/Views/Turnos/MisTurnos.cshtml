@@ -1,0 +1,113 @@
+@model IEnumerable<ConsultorioDental.Models.Turno>
+@{
+    ViewData["Title"] = "Mis turnos";
+}
+
+<div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-4">
+    <div>
+        <h1 class="fw-bold mb-1" style="color:#44B4C4;">
+            @if (ViewBag.OdontologoNombre != null)
+            {
+                <text>Bienvenido, Dr. @ViewBag.OdontologoNombre</text>
+            }
+            else
+            {
+                <text>Mis turnos</text>
+            }
+        </h1>
+        <p class="text-muted mb-0">Turnos asignados a tu agenda.</p>
+    </div>
+    <a asp-controller="Odontologos" asp-action="EditarPerfil" class="btn btn-outline-secondary">Editar perfil</a>
+</div>
+
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-warning border-0 rounded-3">@ViewBag.Error</div>
+}
+else if (!Model.Any())
+{
+    <div class="card border-0 shadow-sm p-5 text-center">
+        <div style="font-size:3rem;">📅</div>
+        <h5 class="fw-bold mt-3 mb-2">No tenes turnos asignados</h5>
+        <p class="text-muted">Cuando el administrador te asigne turnos, apareceran aca.</p>
+    </div>
+}
+else
+{
+    <div class="card border-0 shadow-sm">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead style="background-color:#44B4C4; color:white;">
+                        <tr>
+                            <th class="px-4 py-3">Fecha y hora</th>
+                            <th class="py-3">Paciente</th>
+                            <th class="py-3">Motivo</th>
+                            <th class="py-3 text-center">Estado</th>
+                            <th class="py-3 text-center">Asistencia del paciente</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var t in Model)
+                        {
+                            var badge = t.Estado switch
+                            {
+                                "Confirmado" => "bg-success",
+                                "Cancelado" => "bg-danger",
+                                "Completado" => "bg-primary",
+                                "Inasistencia" => "bg-danger",
+                                _ => "bg-warning text-dark"
+                            };
+                            <tr>
+                                <td class="px-4 fw-semibold">@t.FechaHora.ToString("dd/MM/yyyy HH:mm")</td>
+                                <td>@(t.Paciente?.NombreCompleto ?? "—")</td>
+                                <td class="text-muted small">@(t.Motivo ?? "—")</td>
+                                <td class="text-center">
+                                    <span class="badge @badge">@t.Estado</span>
+                                </td>
+                                <td class="text-center">
+                                    @if (t.Estado == "Cancelado" || t.Estado == "Pendiente")
+                                    {
+                                        <span class="text-muted small">—</span>
+                                    }
+                                    else if (t.Asistio.HasValue)
+                                    {
+                                        if (t.Asistio == true)
+                                        {
+                                            <span class="badge bg-success">Asistio</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-danger">No asistio</span>
+                                        }
+                                    }
+                                    else if (t.Estado == "Confirmado")
+                                    {
+                                        <div class="d-flex gap-1 justify-content-center">
+                                            <form asp-action="MarcarAsistencia" method="post">
+                                                @Html.AntiForgeryToken()
+                                                <input type="hidden" name="id" value="@t.Id" />
+                                                <input type="hidden" name="asistio" value="true" />
+                                                <button type="submit" class="btn btn-sm btn-success">Asistio</button>
+                                            </form>
+                                            <form asp-action="MarcarAsistencia" method="post">
+                                                @Html.AntiForgeryToken()
+                                                <input type="hidden" name="id" value="@t.Id" />
+                                                <input type="hidden" name="asistio" value="false" />
+                                                <button type="submit" class="btn btn-sm btn-outline-delete">No asistio</button>
+                                            </form>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted small">—</span>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+}

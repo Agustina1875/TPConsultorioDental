@@ -1,22 +1,580 @@
-html {
-  font-size: 14px;
+:root {
+    --dental-color: #44B4C4;
+    --dental-dark: #2da8bb;
+    --dental-light: #e8f9fc;
+    --dental-muted: #5f6b73;
+    --dental-delete: #1d7f8f;
+    --dental-delete-dark: #155f6b;
+    --dental-confirm: #b8ede8;
+    --dental-confirm-dark: #9dddd7;
+    --dental-confirm-text: #1a5e5a;
+    --dental-success-bg: #d1e7dd;
+    --dental-success-text: #0f5132;
+    --dental-danger-bg: #dbeafe;
+    --dental-danger-text: #1e40af;
+    --dental-warning-bg: #fff3cd;
+    --dental-warning-text: #856404;
+    --dental-info-bg: #cfe2ff;
+    --dental-info-text: #084298;
+    --dental-border: #dbe7ea;
 }
 
-@media (min-width: 768px) {
-  html {
+
+/*espaciado y prolijidad general */
+p {
+    line-height: 1.65;
+}
+
+.card {
+    border-radius: 16px;
+    border: 1px solid var(--dental-border);
+    box-shadow: 0 6px 18px rgba(0,0,0,.05);
+}
+
+.table-dental th,
+.table-dental td {
+    vertical-align: middle;
+}
+
+.btn,
+.badge,
+.form-control,
+.form-select {
+    border-radius: 10px;
+}
+
+
+
+html {
     font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
+    scroll-behavior: smooth;
 }
 
 body {
-  margin-bottom: 60px;
+    font-family: 'Poppins', sans-serif;
+    background-color: #f5f7fa;
+    margin-bottom: 0;
+    color: #1f2d33;
+}
+
+/* Títulos */
+h1, h2, h3, h4, h5, h6,
+.section-title,
+.page-header h1,
+.form-section-title,
+.card-title {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    letter-spacing: -0.2px;
+}
+
+/* Navbar */
+.navbar-dental,
+.navbar-dental * {
+    font-family: 'Poppins', sans-serif !important;
+}
+
+.navbar-dental {
+    background-color: var(--dental-color) !important;
+    box-shadow: 0 3px 14px rgba(0,0,0,.10);
+}
+
+    .navbar-dental .navbar-brand,
+    .navbar-dental .nav-link {
+        color: #fff !important;
+        font-weight: 500;
+    }
+
+        .navbar-dental .nav-link:hover {
+            color: #dff7fb !important;
+        }
+
+    .navbar-dental .navbar-brand {
+        font-size: 1.5rem;
+    }
+
+.navbar-toggler {
+    border-color: rgba(255,255,255,.5);
+}
+
+    .navbar-toggler:focus {
+        box-shadow: none;
+    }
+
+.dropdown-menu {
+    border-radius: 12px;
+    border: none;
+    box-shadow: 0 8px 24px rgba(0,0,0,.12);
+}
+
+.dropdown-item:hover {
+    background-color: var(--dental-light);
+    color: var(--dental-dark);
+}
+
+/* Footer */
+.footer-dental {
+    background-color: #212529;
+    color: #adb5bd;
+}
+
+/* Botones globales */
+.btn {
+    border-radius: 10px;
+    font-weight: 600;
+}
+
+.btn-dental {
+    background-color: var(--dental-color);
+    border-color: var(--dental-color);
+    color: #fff;
+}
+
+    .btn-dental:hover {
+        background-color: var(--dental-dark);
+        border-color: var(--dental-dark);
+        color: #fff;
+    }
+
+.btn-outline-dental {
+    border: 1.5px solid var(--dental-color);
+    color: var(--dental-color);
+    background: #fff;
+}
+
+    .btn-outline-dental:hover {
+        background: var(--dental-color);
+        color: #fff;
+    }
+
+/* Sobrescritura Bootstrap para no tocar vistas */
+.btn-primary {
+    background-color: var(--dental-color) !important;
+    border-color: var(--dental-color) !important;
+    color: #fff !important;
+}
+
+    .btn-primary:hover,
+    .btn-primary:focus,
+    .btn-primary:active {
+        background-color: var(--dental-dark) !important;
+        border-color: var(--dental-dark) !important;
+        color: #fff !important;
+    }
+
+.btn-success {
+    background-color: var(--dental-confirm) !important;
+    border-color: var(--dental-confirm-dark) !important;
+    color: var(--dental-confirm-text) !important;
+}
+
+    .btn-success:hover,
+    .btn-success:focus,
+    .btn-success:active {
+        background-color: var(--dental-confirm-dark) !important;
+        border-color: #7dccc6 !important;
+        color: #144d4a !important;
+    }
+
+.btn-danger {
+    background-color: var(--dental-delete) !important;
+    border-color: var(--dental-delete) !important;
+    color: #fff !important;
+}
+
+    .btn-danger:hover,
+    .btn-danger:focus,
+    .btn-danger:active {
+        background-color: var(--dental-delete-dark) !important;
+        border-color: var(--dental-delete-dark) !important;
+        color: #fff !important;
+    }
+
+.btn-warning {
+    background-color: #fff3cd !important;
+    border-color: #ffe69c !important;
+    color: #856404 !important;
+}
+
+    .btn-warning:hover,
+    .btn-warning:focus,
+    .btn-warning:active {
+        background-color: #ffe69c !important;
+        border-color: #ffda6a !important;
+        color: #6c5200 !important;
+    }
+
+.btn-outline-primary {
+    border: 1.5px solid var(--dental-color) !important;
+    color: var(--dental-color) !important;
+    background: #fff !important;
+}
+
+    .btn-outline-primary:hover,
+    .btn-outline-primary:focus,
+    .btn-outline-primary:active {
+        background: var(--dental-color) !important;
+        color: #fff !important;
+    }
+
+.btn-outline-secondary {
+    border-radius: 10px;
+    font-weight: 600;
+}
+
+.btn-secondary {
+    background-color: #6c7a80 !important;
+    border-color: #6c7a80 !important;
+    color: #fff !important;
+}
+
+    .btn-secondary:hover {
+        background-color: #5b676d !important;
+        border-color: #5b676d !important;
+        color: #fff !important;
+    }
+
+/* Botones personalizados */
+.btn-delete {
+    background-color: var(--dental-delete);
+    border-color: var(--dental-delete);
+    color: #fff;
+}
+
+    .btn-delete:hover {
+        background-color: var(--dental-delete-dark);
+        border-color: var(--dental-delete-dark);
+        color: #fff;
+    }
+
+.btn-outline-delete {
+    border: 1.5px solid var(--dental-delete);
+    color: var(--dental-delete);
+    background: #fff;
+}
+
+    .btn-outline-delete:hover {
+        background: var(--dental-delete);
+        color: #fff;
+    }
+
+.btn-confirmar {
+    background-color: var(--dental-confirm);
+    border-color: var(--dental-confirm-dark);
+    color: var(--dental-confirm-text);
+}
+
+    .btn-confirmar:hover {
+        background-color: var(--dental-confirm-dark);
+        border-color: #7dccc6;
+        color: #144d4a;
+    }
+
+/* Cards */
+.card {
+    border-radius: 16px;
+    border: 1px solid var(--dental-border);
+}
+
+    .card.card-form {
+        border: none;
+        box-shadow: 0 6px 24px rgba(0,0,0,.08);
+    }
+
+    .card.shadow-sm {
+        box-shadow: 0 .5rem 1rem rgba(0,0,0,.08) !important;
+    }
+
+/* Tablas */
+.table-dental {
+    border-radius: 14px;
+    overflow: hidden;
+    background: #fff;
+}
+
+    .table-dental thead {
+        background-color: var(--dental-color);
+        color: #fff;
+    }
+
+        .table-dental thead th {
+            border-bottom: none;
+            font-weight: 600;
+        }
+
+    .table-dental tbody tr:hover {
+        background-color: #f0fbfc;
+    }
+
+    .table-dental th,
+    .table-dental td {
+        vertical-align: middle;
+    }
+
+.table > :not(caption) > * > * {
+    padding: .55rem .8rem;
+}
+
+/* Inputs */
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--dental-color);
+    box-shadow: 0 0 0 .2rem rgba(68,180,196,.20);
+}
+
+.form-control,
+.form-select {
+    border-radius: 10px;
+    padding: .65rem 1rem;
+}
+
+.form-label {
+    font-weight: 600;
+    color: #24333a;
+}
+
+/* Encabezado de página */
+.page-header {
+    margin-bottom: 1.25rem;
+}
+
+    .page-header h1 {
+        font-weight: 700;
+        color: var(--dental-color);
+        margin-bottom: .2rem;
+    }
+
+    .page-header p {
+        color: var(--dental-muted);
+        margin-bottom: 0;
+    }
+
+/* Badges: mismo tamaño para todo */
+.badge,
+.badge-pendiente,
+.badge-confirmado,
+.badge-cancelado,
+.badge-completado,
+.bg-success,
+.bg-danger,
+.bg-warning,
+.bg-primary,
+.bg-info,
+.bg-secondary {
+    border-radius: 16px;
+    padding: .25rem .6rem;
+    font-size: .72rem;
+    font-weight: 600;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+}
+
+/* Badges de turnos */
+.badge-pendiente {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.badge-confirmado {
+    background-color: #d1e7dd;
+    color: #0f5132;
+}
+
+.badge-cancelado {
+    background-color: #dbeafe;
+    color: #1e40af;
+}
+
+.badge-completado {
+    background-color: #cfe2ff;
+    color: #084298;
+}
+
+/* Sobrescritura de badges Bootstrap para no tocar vistas */
+.bg-success {
+    background-color: var(--dental-success-bg) !important;
+    color: var(--dental-success-text) !important;
+}
+
+.bg-danger {
+    background-color: #f8d7da !important;
+    color: #842029 !important;
+}
+
+.bg-warning {
+    background-color: var(--dental-warning-bg) !important;
+    color: var(--dental-warning-text) !important;
+}
+
+.bg-primary {
+    background-color: var(--dental-info-bg) !important;
+    color: var(--dental-info-text) !important;
+}
+
+.bg-info {
+    background-color: #cff4fc !important;
+    color: #055160 !important;
+}
+
+.bg-secondary {
+    background-color: #e2e3e5 !important;
+    color: #41464b !important;
+}
+
+/* Sobrescritura de alertas */
+.alert {
+    border-radius: 12px;
+}
+
+.alert-success {
+    background-color: #e7f7f3;
+    border-color: #cdeee5;
+    color: #136f63;
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    border-color: #f1b0b7;
+    color: #842029;
+}
+
+.alert-warning {
+    background-color: #fff3cd;
+    border-color: #ffe69c;
+    color: #856404;
+}
+
+.alert-info {
+    background-color: #e1f5fb;
+    border-color: #bee5f3;
+    color: #0c5460;
+}
+
+/* Tarjetas estadísticas */
+.stat-card {
+    border: none;
+    border-radius: 16px;
+    box-shadow: 0 4px 16px rgba(0,0,0,.07);
+    border-left: 4px solid var(--dental-color);
+}
+
+    .stat-card .stat-num {
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--dental-dark);
+    }
+
+    .stat-card .stat-label {
+        font-size: .82rem;
+        color: var(--dental-muted);
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: .04em;
+    }
+
+/* Títulos de sección */
+.form-section-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--dental-dark);
+    border-bottom: 2px solid var(--dental-light);
+    padding-bottom: .5rem;
+    margin-bottom: 1.25rem;
+}
+
+/* Estado vacío */
+.empty-state {
+    padding: 3.5rem 1rem;
+    text-align: center;
+    color: var(--dental-muted);
+}
+
+    .empty-state .empty-icon {
+        font-size: 3rem;
+        opacity: .35;
+        display: block;
+        margin-bottom: 1rem;
+    }
+
+/* Contraseña */
+.password-toggle-btn {
+    border-color: #ced4da;
+    background: #fff;
+    color: #5f6b73;
+}
+
+    .password-toggle-btn:hover {
+        background-color: var(--dental-light);
+        color: var(--dental-dark);
+    }
+
+    .password-toggle-btn:focus {
+        box-shadow: none;
+    }
+
+.input-group .form-control {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.input-group .password-toggle-btn {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+/* Links */
+a {
+    text-decoration: none;
+}
+
+    a:hover {
+        text-decoration: none;
+    }
+
+/* Acciones unificadas */
+.action-buttons,
+.acciones {
+    display: flex;
+    gap: .4rem;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+    .action-buttons .btn,
+    .acciones .btn,
+    .table-dental td .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: .35rem;
+        border-radius: 10px;
+        font-weight: 600;
+        padding: .35rem .65rem;
+        font-size: .85rem;
+    }
+
+        .action-buttons .btn i,
+        .acciones .btn i,
+        .table-dental td .btn i,
+        .btn i,
+        .dropdown-item i {
+            font-size: .92rem;
+            line-height: 1;
+            vertical-align: middle;
+        }
+
+.dropdown-item i {
+    width: 1rem;
+    text-align: center;
+}
+
+/* Utilidades */
+.text-dental {
+    color: var(--dental-color) !important;
+}
+
+.border-dental {
+    border-color: var(--dental-color) !important;
 }

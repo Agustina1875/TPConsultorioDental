@@ -1,0 +1,77 @@
+@{
+    ViewData["Title"] = "Panel de administración";
+}
+
+<div class="page-header d-flex justify-content-between align-items-start flex-wrap gap-2">
+    <div>
+        <h1><i class="bi bi-speedometer2 me-2"></i>Panel de administración</h1>
+        <p>Resumen general del consultorio.</p>
+    </div>
+</div>
+
+<div class="row g-3 mb-4">
+    <div class="col-sm-6 col-lg-4">
+        <div class="card stat-card p-4">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <div class="stat-label">Pacientes</div>
+                    <div class="stat-num">@ViewBag.TotalPacientes</div>
+                </div>
+                <i class="bi bi-people-fill fs-1 opacity-25"></i>
+            </div>
+            <a asp-controller="Paciente" asp-action="Index" class="stretched-link"></a>
+        </div>
+    </div>
+    <div class="col-sm-6 col-lg-4">
+        <div class="card stat-card p-4">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <div class="stat-label">Odontólogos</div>
+                    <div class="stat-num">@ViewBag.TotalOdontologos</div>
+                </div>
+                <i class="bi bi-person-badge-fill fs-1 opacity-25"></i>
+            </div>
+            <a asp-controller="Odontologos" asp-action="Index" class="stretched-link"></a>
+        </div>
+    </div>
+    <div class="col-sm-6 col-lg-4">
+        <div class="card stat-card p-4">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <div class="stat-label">Turnos totales</div>
+                    <div class="stat-num">@ViewBag.TotalTurnos</div>
+                </div>
+                <i class="bi bi-calendar3 fs-1 opacity-25"></i>
+            </div>
+            <a asp-controller="Turnos" asp-action="Index" class="stretched-link"></a>
+        </div>
+    </div>
+</div>
+
+<h5 class="fw-semibold mb-3 text-muted">Accesos rápidos</h5>
+<div class="row g-3 mb-4">
+    <div class="col-6 col-md-4">
+        <a asp-controller="Turnos" asp-action="Index"
+           class="card border-0 shadow-sm text-center p-4 text-decoration-none text-dark d-block"
+           style="border-radius:16px;">
+            <i class="bi bi-calendar-week fs-2 mb-2 d-block" style="color:#44B4C4;"></i>
+            <span class="fw-semibold small">Gestionar turnos</span>
+        </a>
+    </div>
+    <div class="col-6 col-md-4">
+        <a asp-controller="Turnos" asp-action="Agenda"
+           class="card border-0 shadow-sm text-center p-4 text-decoration-none text-dark d-block"
+           style="border-radius:16px;">
+            <i class="bi bi-calendar2-check fs-2 mb-2 d-block" style="color:#44B4C4;"></i>
+            <span class="fw-semibold small">Agenda de turnos</span>
+        </a>
+    </div>
+    <div class="col-6 col-md-4">
+        <a asp-controller="Admin" asp-action="Usuarios"
+           class="card border-0 shadow-sm text-center p-4 text-decoration-none text-dark d-block"
+           style="border-radius:16px;">
+            <i class="bi bi-shield-lock fs-2 mb-2 d-block" style="color:#44B4C4;"></i>
+            <span class="fw-semibold small">Usuarios y roles</span>
+        </a>
+    </div>
+</div>

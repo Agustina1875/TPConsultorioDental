@@ -1,0 +1,140 @@
+@model ConsultorioDental.Models.AgendaViewModel
+@{
+    ViewData["Title"] = "Agenda diaria";
+}
+
+<div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-4">
+    <div>
+        <h1 class="fw-bold mb-1" style="color:#44B4C4;">Agenda diaria del consultorio</h1>
+        <p class="text-muted mb-0">
+            Horarios de 08:00 a 18:00. Elegí un día para ver los turnos disponibles y ocupados.
+        </p>
+    </div>
+
+    <div class="d-flex gap-2 align-items-center">
+
+        <a asp-action="Index" class="btn btn-dental">
+            Turnos
+        </a>
+
+        <a asp-action="Crear" class="btn btn-dental">
+            <i class="bi bi-plus-lg me-1"></i>Nuevo turno
+        </a>
+
+        <a asp-controller="Admin" asp-action="Index"
+           class="btn btn-outline-secondary btn-sm">
+            <i class="bi bi-arrow-left me-1"></i>Volver al panel
+        </a>
+
+    </div>
+</div>
+
+<div class="card border-0 shadow-sm mb-4">
+    <div class="card-body p-4">
+        <form method="get" asp-action="Agenda" class="row g-3 align-items-end">
+            <div class="col-md-4 col-lg-3">
+                <label asp-for="FechaSeleccionada" class="form-label fw-semibold">Fecha</label>
+                <input asp-for="FechaSeleccionada" type="date" class="form-control" />
+            </div>
+
+            <div class="col-md-5 col-lg-5">
+                <label asp-for="OdontologoId" class="form-label fw-semibold">Odontólogo</label>
+                <select asp-for="OdontologoId" class="form-select">
+                    <option value="">Todos</option>
+                    @foreach (var o in Model.Odontologos)
+                    {
+                        <option value="@o.Id">@o.NombreCompleto — @o.Especialidad</option>
+                    }
+                </select>
+            </div>
+
+            <div class="col-md-3 col-lg-2">
+                <button type="submit" class="btn btn-dental w-100">Filtrar</button>
+            </div>
+
+            <div class="col-md-3 col-lg-2">
+                <a asp-action="Agenda" class="btn btn-outline-secondary w-100">Limpiar</a>
+            </div>
+        </form>
+
+        <div class="small text-muted mt-3">
+            Mostrando la agenda del @Model.FechaSeleccionada.ToString("dd/MM/yyyy")
+        </div>
+    </div>
+</div>
+
+<div class="row g-3 mb-4">
+    <div class="col-md-4">
+        <div class="card stat-card p-4">
+            <div class="stat-label">Horarios disponibles</div>
+            <div class="stat-num">@Model.Slots.Count(s => s.Disponible)</div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card stat-card p-4">
+            <div class="stat-label">Horarios ocupados</div>
+            <div class="stat-num">@Model.Slots.Count(s => !s.Disponible)</div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card stat-card p-4">
+            <div class="stat-label">Turnos cargados</div>
+            <div class="stat-num">@Model.Slots.Sum(s => s.Turnos.Count)</div>
+        </div>
+    </div>
+</div>
+
+<div class="card card-form">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-dental table-hover align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th class="px-4 py-3">Hora</th>
+                        <th class="py-3">Estado</th>
+                        <th class="py-3">Detalle</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var slot in Model.Slots)
+                    {
+                        <tr>
+                            <td class="px-4 fw-semibold">@slot.FechaHora.ToString("HH:mm")</td>
+                            <td>
+                                @if (slot.Disponible)
+                                {
+                                    <span class="badge bg-success">Disponible</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-danger">Ocupado</span>
+                                }
+                            </td>
+                            <td>
+                                @if (slot.Disponible)
+                                {
+                                    <span class="text-muted">Sin turnos asignados</span>
+                                }
+                                else
+                                {
+                                    <div class="small">
+                                        @foreach (var t in slot.Turnos)
+                                        {
+                                            <div class="mb-1">
+                                                <strong>@(t.Odontologo?.NombreCompleto ?? "Odontólogo")</strong> —
+                                                @(t.Paciente?.NombreCompleto ?? "Paciente") —
+                                                <span class="text-muted">@t.Estado</span>
+                                            </div>
+                                        }
+                                    </div>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

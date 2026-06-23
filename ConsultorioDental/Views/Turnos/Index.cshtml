@@ -1,0 +1,112 @@
+@model IEnumerable<ConsultorioDental.Models.Turno>
+@{
+    ViewData["Title"] = "Turnos";
+}
+
+<div class="page-header d-flex justify-content-between align-items-start flex-wrap gap-2">
+    <div>
+        <h1><i class="bi bi-calendar3 me-2"></i>Turnos</h1>
+        <p>Listado completo de turnos del consultorio.</p>
+    </div>
+    <div class="d-flex gap-2 align-self-center">
+        <a asp-action="Agenda" class="btn btn-outline-info">
+            <i class="bi bi-calendar-week me-1"></i>Agenda
+        </a>
+        <a asp-controller="Admin"
+           asp-action="Index"
+           class="btn btn-outline-secondary btn-sm d-flex align-items-center">
+            ← Volver al panel
+        </a>
+        <a asp-action="Crear" class="btn btn-dental">
+            <i class="bi bi-plus-lg me-1"></i>Nuevo turno
+        </a>
+    </div>
+</div>
+
+<div class="card border-0 shadow-sm mb-4">
+    <div class="card-body">
+        <form method="get" asp-action="Index" class="row g-3 align-items-end">
+            <div class="col-md-8 col-lg-6">
+                <label class="form-label fw-semibold">Filtrar por odontólogo</label>
+                <select name="odontologoId" class="form-select" asp-items="ViewBag.Odontologos">
+                    <option value="">Todos los odontólogos</option>
+                </select>
+            </div>
+            <div class="col-md-4 col-lg-6 d-flex gap-2">
+                <button type="submit" class="btn btn-dental">
+                    <i class="bi bi-funnel me-1"></i>Filtrar
+                </button>
+                <a asp-action="Index" class="btn btn-outline-secondary">Limpiar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@if (TempData["Mensaje"] != null)
+{
+    <div class="alert alert-success border-0 rounded-3 mb-3">@TempData["Mensaje"]</div>
+}
+
+<div class="card card-form">
+    <div class="card-body p-0">
+        @if (Model != null && Model.Any())
+        {
+            <div class="table-responsive">
+                <table class="table table-dental table-hover mb-0">
+                    <thead>
+                        <tr>
+                            <th class="ps-4">Fecha y hora</th>
+                            <th>Paciente</th>
+                            <th>Odontólogo</th>
+                            <th>Motivo</th>
+                            <th class="text-center">Estado</th>
+                            <th class="text-center pe-4">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var t in Model)
+                        {
+                            <tr>
+                                <td class="ps-4 fw-semibold">@t.FechaHora.ToString("dd/MM/yyyy HH:mm")</td>
+                                <td>@t.Paciente?.NombreCompleto</td>
+                                <td class="text-muted">@t.Odontologo?.NombreCompleto</td>
+                                <td class="text-muted small">@(t.Motivo ?? "—")</td>
+                                <td class="text-center">
+                                    @{
+                                        var estadoClass = t.Estado switch
+                                        {
+                                            "Confirmado" => "badge-confirmado",
+                                            "Cancelado" => "badge-cancelado",
+                                            "Completado" => "badge-completado",
+                                            _ => "badge-pendiente"
+                                        };
+                                    }
+                                    <span class="@estadoClass">@t.Estado</span>
+                                </td>
+                                <td class="text-center pe-4">
+                                    <a asp-action="Editar" asp-route-id="@t.Id"
+                                       class="btn btn-sm btn-outline-primary me-1">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                    <a asp-action="Eliminar" asp-route-id="@t.Id"
+                                       class="btn btn-sm btn-outline-delete">
+                                        <i class="bi bi-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <div class="empty-state">
+                <span class="empty-icon">📅</span>
+                <p class="fw-semibold mb-1">No hay turnos registrados</p>
+                <p class="small mb-3">Creá el primer turno del consultorio.</p>
+                <a asp-action="Crear" class="btn btn-dental btn-sm">Crear turno</a>
+            </div>
+        }
+    </div>
+</div>

@@ -1,0 +1,110 @@
+@model ConsultorioDental.Models.PacientePerfilViewModel
+@{
+    ViewData["Title"] = "Editar mi perfil";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="fw-bold mb-0" style="color:#44B4C4;">Editar mi perfil</h1>
+    <a asp-action="Panel" class="btn btn-outline-secondary"><i class="bi bi-arrow-left me-1"></i>Volver</a>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card border-0 shadow-sm p-4">
+            <form asp-action="EditarPerfil" method="post">
+                @Html.AntiForgeryToken()
+
+                <input type="hidden" asp-for="Paciente.Id" />
+
+                <div asp-validation-summary="ModelOnly" class="text-danger small mb-3"></div>
+
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label asp-for="Paciente.Nombre" class="form-label fw-semibold"></label>
+                        <input asp-for="Paciente.Nombre" class="form-control" />
+                        <span asp-validation-for="Paciente.Nombre" class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="Paciente.Apellido" class="form-label fw-semibold"></label>
+                        <input asp-for="Paciente.Apellido" class="form-control" />
+                        <span asp-validation-for="Paciente.Apellido" class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="Paciente.DNI" class="form-label fw-semibold"></label>
+                        <input asp-for="Paciente.DNI" class="form-control" />
+                        <span asp-validation-for="Paciente.DNI" class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="Paciente.FechaNacimiento" class="form-label fw-semibold"></label>
+                        <input asp-for="Paciente.FechaNacimiento" type="date" class="form-control" />
+                        <span asp-validation-for="Paciente.FechaNacimiento" class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="Paciente.Telefono" class="form-label fw-semibold"></label>
+                        <input asp-for="Paciente.Telefono" class="form-control" />
+                        <span asp-validation-for="Paciente.Telefono" class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="Paciente.Email" class="form-label fw-semibold"></label>
+                        <input asp-for="Paciente.Email" type="email" class="form-control" />
+                        <span asp-validation-for="Paciente.Email" class="text-danger small"></span>
+                    </div>
+                </div>
+
+                <hr class="my-4" />
+
+                <h5 class="fw-bold mb-3" style="color:#44B4C4;">Cambiar contraseña</h5>
+
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label asp-for="NuevaPassword" class="form-label fw-semibold"></label>
+                        <div class="input-group">
+                            <input asp-for="NuevaPassword" class="form-control" id="PacienteNewPassword" type="password" autocomplete="new-password" />
+                            <button type="button"
+                                    class="btn password-toggle-btn"
+                                    data-password-toggle
+                                    data-password-target="PacienteNewPassword"
+                                    aria-label="Mostrar contraseña">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                        </div>
+                        <span asp-validation-for="NuevaPassword" class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="ConfirmarPassword" class="form-label fw-semibold"></label>
+                        <div class="input-group">
+                            <input asp-for="ConfirmarPassword" class="form-control" id="PacienteConfirmPassword" type="password" autocomplete="new-password" />
+                            <button type="button"
+                                    class="btn password-toggle-btn"
+                                    data-password-toggle
+                                    data-password-target="PacienteConfirmPassword"
+                                    aria-label="Mostrar contraseña">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                        </div>
+                        <span asp-validation-for="ConfirmarPassword" class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-12">
+                        <div class="form-text">Completá estos campos solo si querés cambiar tu contraseña.</div>
+                    </div>
+                </div>
+
+                <div class="mt-4 d-flex gap-2">
+                    <button type="submit" class="btn btn-dental px-4 fw-semibold">Guardar cambios</button>
+                    <a asp-action="Panel" class="btn btn-outline-secondary px-4"><i class="bi bi-arrow-left me-1"></i>Volver</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

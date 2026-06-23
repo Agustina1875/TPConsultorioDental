@@ -1,21 +1,502 @@
-﻿@{
+@{
     ViewData["Title"] = "Inicio";
 }
 
-<div class="text-center mt-5">
-    <h1><i class="bi bi-tooth"></i> Bienvenido al consultorio dental</h1>
-    <p class="text-muted mt-2">Sistema de gestión de pacientes y turnos</p>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-    @if (User.Identity.IsAuthenticated)
-    {
-        <a asp-controller="Pacientes" asp-action="Index" class="btn btn-primary mt-3">
-            <i class="bi bi-people"></i> Ver Pacientes
-        </a>
+<style>
+    html {
+        scroll-behavior: smooth;
     }
-    else
-    {
-        <a asp-controller="Cuenta" asp-action="Login" class="btn btn-primary mt-3">
-            <i class="bi bi-box-arrow-in-right"></i> Iniciar Sesión
-        </a>
+
+    body {
+        font-family: 'Poppins', sans-serif;
     }
-</div>
+
+    .section-space {
+        padding: 90px 0;
+    }
+
+    .hero-card {
+        background: linear-gradient(135deg, #ffffff 0%, #f7fcfd 100%);
+        border-radius: 24px;
+        box-shadow: 0 12px 35px rgba(0,0,0,.08);
+        border: 1px solid #e9f3f5;
+    }
+
+    .hero-title {
+        color: #2da8bb;
+        font-weight: 800;
+        line-height: 1.1;
+        letter-spacing: -.5px;
+    }
+
+    .hero-subtitle {
+        color: #5f6b73;
+        font-size: 1.1rem;
+        line-height: 1.9;
+        max-width: 700px;
+    }
+
+    .section-title {
+        color: #2da8bb;
+        font-weight: 800;
+        letter-spacing: -.3px;
+    }
+
+    .badge-dental {
+        background-color: #dff7fb;
+        color: #2da8bb;
+        font-weight: 700;
+        border-radius: 999px;
+        padding: .75rem 1.1rem;
+        display: inline-block;
+        font-size: .95rem;
+    }
+
+    .btn-dental {
+        background-color: #44B4C4;
+        border-color: #44B4C4;
+        color: white;
+        border-radius: 12px;
+        padding: .85rem 1.5rem;
+        font-weight: 600;
+    }
+
+        .btn-dental:hover {
+            background-color: #379dad;
+            border-color: #379dad;
+            color: white;
+        }
+
+    .btn-outline-dental {
+        border: 1px solid #44B4C4;
+        color: #44B4C4;
+        background-color: white;
+        border-radius: 12px;
+        padding: .85rem 1.5rem;
+        font-weight: 600;
+    }
+
+        .btn-outline-dental:hover {
+            background-color: #44B4C4;
+            color: white;
+        }
+
+    .card-dental {
+        border: none;
+        border-radius: 22px;
+        box-shadow: 0 10px 28px rgba(0,0,0,.07);
+        height: 100%;
+        transition: transform .2s ease, box-shadow .2s ease;
+    }
+
+        .card-dental:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 34px rgba(0,0,0,.10);
+        }
+
+    .icon-circle {
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto .85rem auto;
+        background-color: #e8f9fc;
+        color: #2da8bb;
+        font-size: 1.4rem;
+    }
+
+    .feature-box {
+        background-color: white;
+        border-radius: 20px;
+        box-shadow: 0 10px 24px rgba(0,0,0,.06);
+        border: 1px solid #edf3f5;
+    }
+
+    .home-logo-box {
+        background: linear-gradient(180deg, #ffffff 0%, #f6fbfc 100%);
+        border-radius: 24px;
+        border: 1px solid #e6f0f2;
+        box-shadow: 0 10px 30px rgba(0,0,0,.06);
+    }
+
+    .info-card {
+        background-color: #f8fcfd;
+        border: 1px solid #ebf3f5;
+        border-radius: 18px;
+        padding: 1.25rem;
+        height: 100%;
+    }
+
+        .info-card h5 {
+            color: #2da8bb;
+            font-weight: 700;
+            margin-bottom: .4rem;
+        }
+
+    .contact-card {
+        border: none;
+        border-radius: 24px;
+        box-shadow: 0 10px 28px rgba(0,0,0,.07);
+    }
+
+    .contact-icon {
+        width: 52px;
+        height: 52px;
+        min-width: 52px;
+        border-radius: 50%;
+        background-color: #e8f9fc;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.3rem;
+        color: #2da8bb;
+        margin-right: .75rem;
+    }
+
+    .form-control, .form-select, textarea {
+        border-radius: 12px !important;
+        padding: .85rem 1rem;
+    }
+
+    .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+    }
+</style>
+
+<!-- HERO -->
+<section id="inicio" class="section-space pt-4">
+    <div class="hero-card p-5">
+        <div class="row align-items-center g-4">
+            <div class="col-lg-7">
+                <span class="badge-dental mb-3">Consultorio Odontológico</span>
+
+                <h1 class="display-4 hero-title mb-3">
+                    Bienvenido a <br /> Dental System
+                </h1>
+
+                <p class="hero-subtitle mb-4">
+                    Somos un consultorio odontológico pensado para brindarte una atención cercana, ordenada y profesional.
+                    Desde esta página podés conocer nuestros servicios, obtener información útil y contactarte con nosotros de manera simple.
+                </p>
+
+                <div class="hero-actions">
+                    @if (User.Identity?.IsAuthenticated == true)
+                    {
+                        <a asp-controller="Home" asp-action="Dashboard" class="btn btn-dental btn-lg">
+                            Ir a mi panel
+                        </a>
+                    }
+                    else
+                    {
+                        <a asp-controller="Cuenta" asp-action="Login" class="btn btn-dental btn-lg">
+                            Iniciar sesión
+                        </a>
+                        <a asp-controller="Cuenta" asp-action="Registro" class="btn btn-outline-dental btn-lg">
+                            Registrarse
+                        </a>
+                    }
+                </div>
+            </div>
+
+            <div class="col-lg-5">
+                <div class="home-logo-box p-5 text-center">
+                    <img src="~/images/logoMuela.png" alt="Dental System" style="max-height:150px; width:auto;" />
+                    <h3 class="fw-bold mt-4 mb-2">Atención odontológica</h3>
+                    <p class="text-muted mb-0 fs-5">
+                        Un espacio digital para acompañar la organización del consultorio
+                        de forma simple, moderna y ordenada.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@if (User.Identity?.IsAuthenticated != true)
+{
+    <!-- QUIÉNES SOMOS -->
+   
+
+    <section id="quienes-somos" class="section-space">
+        <div class="row align-items-center g-4">
+            <div class="col-lg-6">
+                <span class="badge-dental mb-3">Sobre nosotros</span>
+
+               
+                <h2 class="section-title mb-3">Quiénes somos</h2>
+
+                <p class="fs-5">
+                    En <strong>Dental System</strong> brindamos atención odontológica profesional y de calidad,
+                    acompañando a cada paciente con calidez y dedicación desde el primer contacto.
+                </p>
+
+                <p>
+                    Contamos con un equipo capacitado que prioriza la prevención, el diagnóstico oportuno
+                    y el seguimiento de cada tratamiento.
+                </p>
+
+                <div class="info-card mt-4">
+                    <h5>Sede Central:</h5>
+                    <p class="mb-0">
+                        Talcahuano 1134, Ciudad Autónoma de Buenos Aires.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="feature-box p-4 p-lg-5">
+                    <h4 class="fw-bold mb-4">Nuestro enfoque</h4>
+
+                    <div class="row g-3">
+                        <div class="col-sm-6">
+                            <div class="info-card">
+                                <h5>Atención personalizada</h5>
+                                <p class="mb-0">
+                                    Cada paciente recibe una atención adaptada a sus necesidades.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="info-card">
+                                <h5>Profesionalismo</h5>
+                                <p class="mb-0">
+                                    Compromiso con la calidad y el cuidado de la salud bucal.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="info-card">
+                                <h5>Confianza</h5>
+                                <p class="mb-0">
+                                    Un espacio pensado para que te sientas cómodo y seguro.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="info-card">
+                                <h5>Seguimiento</h5>
+                                <p class="mb-0">
+                                    Acompañamiento continuo durante todo el tratamiento.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+      
+
+    </section>
+
+
+    <!-- SERVICIOS -->
+    <section id="servicios" class="section-space pt-2">
+        <div class="text-center mb-5">
+            <span class="badge-dental mb-3">Nuestros servicios</span>
+            <h2 class="section-title mb-2">Cuidamos tu salud bucal</h2>
+            <p class="fs-5 mb-0">
+                Brindamos atención odontológica integral para acompañarte en cada etapa de tu cuidado dental.
+            </p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card card-dental">
+                    <div class="card-body p-3 text-center">
+                        <div class="icon-circle">
+                            <i class="bi bi-heart-pulse-fill"></i>
+                        </div>
+                        <h5 class="fw-bold mb-2">Odontología general</h5>
+                        <p class="mb-0">
+                            Controles periódicos, diagnóstico, prevención y tratamientos para mantener una sonrisa saludable.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card card-dental">
+                    <div class="card-body p-3 text-center">
+                        <div class="icon-circle">
+                            <i class="bi bi-calendar-check"></i>
+                        </div>
+                        <h5 class="fw-bold mb-2">Turnos organizados</h5>
+                        <p class="mb-0">
+                            Gestionamos tu atención de forma ordenada para reducir tiempos de espera y mejorar tu experiencia.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card card-dental">
+                    <div class="card-body p-3 text-center">
+                        <div class="icon-circle">
+                            <i class="bi bi-person-badge-fill"></i>
+                        </div>
+                        <h5 class="fw-bold mb-2">Profesionales especializados</h5>
+                        <p class="mb-0">
+                            Contamos con odontólogos capacitados para brindarte atención personalizada y de calidad.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACTO -->
+    <section id="contacto" class="section-space pt-2">
+        <div class="text-center mb-5">
+            <span class="badge-dental mb-3">Contacto</span>
+            <h2 class="section-title mb-2">Estamos para ayudarte</h2>
+            <p class="fs-5 mb-0">
+                Comunicate con nosotros para solicitar información, coordinar consultas o resolver cualquier duda.
+            </p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-lg-5">
+                <div class="card contact-card h-100">
+                    <div class="card-body p-4 p-lg-5">
+                        <h4 class="fw-bold mb-4">Canales de contacto</h4>
+
+                        <div class="d-flex align-items-start mb-4">
+                            <div class="contact-icon">
+                                <i class="bi bi-telephone-fill"></i>
+                            </div>
+                            <div>
+                                <h6 class="fw-bold mb-1">Teléfono</h6>
+                                <p class="mb-1">(011) 4832-5678</p>
+                                <p class="mb-0">
+                                    Atención de lunes a viernes de 9:00 a 18:00 hs.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="d-flex align-items-start mb-4">
+                            <div class="contact-icon">
+                                <i class="bi bi-envelope-fill"></i>
+                            </div>
+                            <div>
+                                <h6 class="fw-bold mb-1">Correo electrónico</h6>
+                                <p class="mb-1">consultas@dentalsystem.com</p>
+                                <p class="mb-0">
+                                    Respondemos consultas sobre atención, tratamientos y turnos.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="d-flex align-items-start">
+                            <div class="contact-icon">
+                                <i class="bi bi-geo-alt-fill"></i>
+                            </div>
+                            <div>
+                                <h6 class="fw-bold mb-1">Ubicaciones</h6>
+                                <p class="mb-1">Juncal 1311, Almagro (CABA)</p>
+                                <p class="mb-1">Hospital Italiano - Av. Díaz Vélez y Salguero (CABA)</p>
+                                <p class="mb-1">Juramento 2059, Piso 9 - Belgrano</p>
+                                <p class="mb-1">Talcahuano 1134 - Retiro</p>
+                                <p class="mb-0">Av. Juan B. Alberdi 562 - Palermo</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-7">
+                <div class="card contact-card">
+                    <div class="card-body p-4 p-lg-5">
+                        <h4 class="fw-bold mb-4">Enviar una consulta</h4>
+
+                        <form id="formContacto">
+                            <div class="row g-3">
+
+                                <div class="col-md-6">
+                                    <label class="form-label">Nombre</label>
+                                    <input type="text"
+                                           class="form-control"
+                                           id="nombreContacto"
+                                           placeholder="Tu nombre" />
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label class="form-label">Correo electrónico</label>
+                                    <input type="email"
+                                           class="form-control"
+                                           id="emailContacto"
+                                           placeholder="tuemail@mail.com" />
+                                </div>
+
+                                <div class="col-12">
+                                    <label class="form-label">Motivo de consulta</label>
+                                    <select class="form-select" id="motivoContacto">
+                                        <option selected disabled value="">Seleccioná una opción</option>
+                                        <option>Solicitud de turno</option>
+                                        <option>Consulta sobre tratamiento</option>
+                                        <option>Consulta administrativa</option>
+                                        <option>Obras sociales</option>
+                                        <option>Otra consulta</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-12">
+                                    <label class="form-label">Mensaje</label>
+                                    <textarea class="form-control"
+                                              id="mensajeContacto"
+                                              rows="5"
+                                              placeholder="Escribí tu consulta..."></textarea>
+                                </div>
+
+                                <div class="col-12">
+                                    <button type="submit" class="btn btn-dental">
+                                        Enviar consulta
+                                    </button>
+                                </div>
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+@section Scripts {
+    <script>
+        document.getElementById("formContacto")?.addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            const nombre = document.getElementById("nombreContacto").value.trim();
+            const email = document.getElementById("emailContacto").value.trim();
+            const motivo = document.getElementById("motivoContacto").value;
+            const mensaje = document.getElementById("mensajeContacto").value.trim();
+
+            if (!nombre || !email || !motivo || !mensaje) {
+                alert("Por favor completá todos los campos.");
+                return;
+            }
+
+            const destinatario = "consultas@dentalsystem.com";
+            const asunto = encodeURIComponent("Consulta - " + motivo);
+            const cuerpo = encodeURIComponent(
+                "Nombre: " + nombre + "\n" +
+                "Email: " + email + "\n" +
+                "Motivo: " + motivo + "\n\n" +
+                "Mensaje:\n" + mensaje
+            );
+
+            window.location.href = `mailto:${destinatario}?subject=${asunto}&body=${cuerpo}`;
+        });
+    </script>
+}
