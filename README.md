@@ -25,11 +25,36 @@ Integrantes:
   "AllowedHosts": "*"
 }
 
-3-Ejecuta/compila la aplicación.
-4-Inicia sesion con el correo asignado como administrador: 
--Email: admin@consultoriodental.com
--Contraseña: Admin123!
+3-Restaura la base de datos con el archivo .bak dentro de la carpeta.
+      (si no funciona podemos crearla nuevamente de 0 con el archivo setup)
+4-Ejecuta/compila la aplicación.
+
+-PARA ASIGNAR POR PRIMERA VEZ EL ROL DE ADMINISTRADOR:-
+1.Ejecutar la aplicación.
+2.Iniciar sesión con Google utilizando la cuenta que será Administrador.
+3.Abri SQL server management studio y conectate a (localdb)\MSSQLLocalDB.
+4.Fijate si estas en la base adecuada (ConsultorioDental) y hace click en "New Query".
+5.Pega y ejecuta el siguiente script reemplazando el correo con el que iniciaste sesión:
+
+DECLARE @Email NVARCHAR(256) = 'Tucorreo@gmail.com';
+
+INSERT INTO AspNetUserRoles (UserId, RoleId)
+SELECT
+    U.Id,
+    R.Id
+FROM AspNetUsers U
+CROSS JOIN AspNetRoles R
+WHERE U.Email = @Email
+  AND R.Name = 'Administrador'
+  AND NOT EXISTS
+  (
+      SELECT 1
+      FROM AspNetUserRoles UR
+      WHERE UR.UserId = U.Id
+        AND UR.RoleId = R.Id
+  );
+
+5-Cerrar sesion y volver a ingresar, ya ingresas con el rol admin. 
 
 -ACLARACIONES:-
 -A partir de esa cuenta ya se puede designar y cambiar roles a nuevos correos.
--La base se genera automáticamente al ejecutar el proyecto con Entity Framework.
